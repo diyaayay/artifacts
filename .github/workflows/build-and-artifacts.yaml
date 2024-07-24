@@ -1,0 +1,40 @@
+name: Build, Store, and Download Artifact
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+
+      - name: Build project
+        run: cargo build --release
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: diya_artifact_binary
+          path: target/release/diya_artifact
+
+  download:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: diya_artifact_binary
+          path: ./downloaded_artifact
+
+      - name: List files in artifact
+        run: ls -l ./downloaded_artifact
