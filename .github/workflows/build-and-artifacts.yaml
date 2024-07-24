@@ -23,7 +23,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: diya_artifact_binary
-          path: target/release/diya_artifact
+          path: target/release/diya_artifact.exe
 
   download:
     runs-on: ubuntu-latest
@@ -37,4 +37,4 @@ jobs:
           path: ./downloaded_artifact
 
       - name: List files in artifact
-        run: ls -l ./downloaded_artifact
+        run: dir ./downloaded_artifact
